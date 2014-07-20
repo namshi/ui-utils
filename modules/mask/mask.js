@@ -28,6 +28,8 @@ angular.module('ui.mask', [])
           // Vars for initializing/uninitializing
             originalPlaceholder = iAttrs.placeholder,
             originalMaxlength = iAttrs.maxlength,
+          // Vars for disabling event handlers
+            isMaskBlur = $parse(iAttrs.uiMaskBlur)(),
           // Vars used exclusively in eventHandler()
             oldValue, oldValueUnmasked, oldCaretPosition, oldSelectionLength;
 
@@ -289,6 +291,9 @@ angular.module('ui.mask', [])
           }
 
           function blurHandler(){
+            if(isMaskBlur === false && value.length>0){
+              return;
+            }
             oldCaretPosition = 0;
             oldSelectionLength = 0;
             if (!isValid || value.length === 0) {
